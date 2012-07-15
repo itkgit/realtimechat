@@ -1,0 +1,54 @@
+<script type="text/javascript">
+	jQuery(function($) {
+		var server = io.connect('http://localhost:8080');
+		
+		server.on('connect',function(data) {
+			$('#status').html('Connected to chattr');
+			nickname = prompt("What is your nickname?");
+			
+			server.emit('join',nickname);
+		});
+		
+		server.on('add chatter',insertChatter);
+		server.on('remove chatter',removeChatter);
+		
+		server.on('chat',function(message) {
+			insertMessage(message.name,message.data);
+		});
+		$('#chat-form').submit(function(e) {
+			e.preventDefault();
+			message = $('#chat-input').val()
+			server.emit('messages',message);
+			insertMessage('you',message);
+			$('#chat-input').val('');
+		});
+		
+		function insertChatter(name){
+			var chatter = $('<li>').text('name').data('name',name);
+			$('#chatters').append(chatter);
+		}
+		
+		function insertMessage (name,data) {
+			$('#messages ul').append(
+				$('<li>').append(
+					$('<span>',{'class':'name'}).append(name)
+				).append(
+					$('<span>',{'class':'data'}).append(data)
+				)
+			);
+		}
+		function removeChatter (nane) {
+			$('#chatters li[data-name='+name+']').remove();
+		}
+	});
+</script>
+<h1>This will be real-time web chat application</h1>
+<%= now %>
+<section id="messages">
+	<h3 id="status"></h3>
+	<ul>
+	</ul>
+</section>
+<form id="chat-form">
+	<input type="text" id="chat-input">
+</form>
