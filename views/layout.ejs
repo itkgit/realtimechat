@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script src="http://www.google.com/jsapi"></script>
-		<script type="text/javascript">
-			google.load('jquery','1.7');
-		</script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-		
+		<meta charset="utf-8" />
+		<title>real time web chat</title>
+		<link rel="stylesheet" type="text/css" href="stylesheets/bootstrap.min.css" media="all">
 		<link rel="stylesheet" type="text/css" href="stylesheets/style.css" media="all">
+
+		<script type="text/javascript" src="/javascript/jquery.min.js"></script>
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/javascript/bootstrap.min.js"></script>
+
 	</head>
 	<body>
-		<%- body %>
+		<div class="container-fluid">
+			<%- body %>			
+		</div>
 	</body>
 </html>

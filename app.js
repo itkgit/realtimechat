@@ -30,29 +30,27 @@ io.sockets.on('connection',function(client) {
 	client.on('join',function(name) {
 		client.set('nickname',name);
 		
-		client.broadcast.emit('add chatter',name);
-		redisClient.forEach(function(name) {
-			client.emit('add chatter',name);
+		io.sockets.emit('add chatter',name);
+		redisClient.smembers('chatters',function(err,chatters) {
+			chatters.forEach(function(name) {
+				client.emit('add chatter',name);
+			});			
 		});
 
 		redisClient.sadd('chatters',name);
 		
 		redisClient.lrange('messages',0,-1,function(err,messages) {
-			messages = messages.reverse();
+			var messages = messages.reverse();
 			messages.forEach(function(message) {
-				message = JSON.parse(message);
+				var message = JSON.parse(message);
 				client.emit('chat',{name:message.name,data:message.data})
 			})
-		})
-		
-		messages.forEach(function(message) {
-			client.emit('chat',{name:message.name,data:message.data});
 		})
 	})
 	client.on('messages',function(data) {
 		client.get('nickname',function(err,name) {
 			storeMessages(name,data);
-			client.broadcast.emit('chat',{name:name,data:data});
+			io.sockets.emit('chat',{name:name,data:data});
 		});
 	});
 	

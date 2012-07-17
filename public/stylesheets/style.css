@@ -1,3 +1,4 @@
-span.name:after{
-	content:" : ";
+#messages {
+	height:300px;
+	overflow:auto;
 }

@@ -5,7 +5,6 @@
 		server.on('connect',function(data) {
 			$('#status').html('Connected to chattr');
 			nickname = prompt("What is your nickname?");
-			
 			server.emit('join',nickname);
 		});
 		
@@ -14,41 +13,67 @@
 		
 		server.on('chat',function(message) {
 			insertMessage(message.name,message.data);
+			//scroll to buttom
+			scrollToButtom();
 		});
+		
 		$('#chat-form').submit(function(e) {
 			e.preventDefault();
 			message = $('#chat-input').val()
+			if(message.replace(/\s+/g,'') == ''){return false;}
 			server.emit('messages',message);
-			insertMessage('you',message);
 			$('#chat-input').val('');
 		});
 		
+		function scrollToButtom(){
+			var el = $('#messages');
+			el.animate({scrollTop: el.get(0).scrollHeight},'fast')			
+		}
+		
 		function insertChatter(name){
-			var chatter = $('<li>').text('name').data('name',name);
-			$('#chatters').append(chatter);
+			var chatter = $('<li>').text(name).attr('data-name',name);
+			$('#chatters ul').append(chatter);
 		}
 		
 		function insertMessage (name,data) {
 			$('#messages ul').append(
 				$('<li>').append(
-					$('<span>',{'class':'name'}).append(name)
-				).append(
-					$('<span>',{'class':'data'}).append(data)
+					$('<dl>').append(
+						$('<dt>',{'class':'name'}).append(name)
+					).append(
+						$('<dd>',{'class':'data'}).append(data)
+					)
 				)
 			);
 		}
-		function removeChatter (nane) {
-			$('#chatters li[data-name='+name+']').remove();
+		function removeChatter (name) {
+			$('#chatters ul li[data-name='+name+']').remove();
 		}
 	});
 </script>
-<h1>This will be real-time web chat application</h1>
-<%= now %>
-<section id="messages">
-	<h3 id="status"></h3>
-	<ul>
-	</ul>
-</section>
-<form id="chat-form">
-	<input type="text" id="chat-input">
-</form>
+
+<div class="row">
+	<h1>This will be real-time web chat application</h1>
+</div>
+<div class="row">
+	<div class="span6 offset2">
+		<h3 id="status"></h3>
+	</div>
+</div>
+
+<div class="row">
+	<div id="chatters" class="span2">
+		<ul class="unstyled"></ul>
+	</div>
+	<div class="span6">
+		<div id="messages">
+			<ul>
+			</ul>
+		</div>
+		<form id="chat-form">
+			<div class="btn-group">
+				<input type="text" id="chat-input" placeholder="Type your message..." >
+			</div>
+		</form>
+	</div>
+</div>

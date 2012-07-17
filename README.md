@@ -1,4 +1,4 @@
 realtimechat
 ============
 
-nodejs realtimechat app (this is practice)
+nodejs realtimechat app (this is for practice)
