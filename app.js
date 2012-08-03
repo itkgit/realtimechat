@@ -46,7 +46,7 @@ io.sockets.on('connection',function(client) {
 				client.emit('chat',{name:message.name,data:message.data})
 			})
 		})
-	})
+	});
 	client.on('messages',function(data) {
 		client.get('nickname',function(err,name) {
 			storeMessages(name,data);
@@ -59,5 +59,5 @@ io.sockets.on('connection',function(client) {
 			client.broadcast.emit('remove chatter',name);
 			redisClient.srem('chatters',name);
 		})
-	})
+	});
 });
