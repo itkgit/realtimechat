@@ -3,7 +3,7 @@
 	"version":"0.0.2",
 	"dependencies":{
 		"express":"~2",
-		"ejs":"~0.7.2",
+		"ejs":"~2.7.1",
 		"socket.io":"~0.9.6",
 		"redis":"~0.7.2"
 	}
