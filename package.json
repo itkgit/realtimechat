@@ -2,7 +2,7 @@
 	"name":"realtimechat",
 	"version":"0.0.2",
 	"dependencies":{
-		"express":"~2",
+		"express":"~4",
 		"ejs":"~0.7.2",
 		"socket.io":"~0.9.6",
 		"redis":"~0.7.2"
